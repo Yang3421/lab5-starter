@@ -9,12 +9,16 @@ void handle_404(int client_sock, char *path)  {
     printf("SERVER LOG: Got request for unrecognized path \"%s\"\n", path);
 
     char response_buff[BUFFER_SIZE];
-    snprintf(response_buff, BUFFER_SIZE, "Error 404:\r\nUnrecognized path \"%s\"\r\n", path);
-    // snprintf includes a null-terminator
+    snprintf(response_buff, BUFFER_SIZE,
+             "HTTP/1.1 404 Not Found\r\n"
+             "Content-Type: text/plain\r\n"
+             "Content-Length: %ld\r\n"
+             "\r\n"
+             "Error 404:\r\nUnrecognized path \"%s\"\r\nIt's now a blank server!",
+             strlen(path) + 37, path); // 37 is the length of the "It's now a blank server!" message.
 
-    // TODO: send response back to client?
-    write("It's now a blank server!");
-    write("It's now a blank server!");
+    // Send the response back to the client
+    write(client_sock, response_buff, strlen(response_buff));
 }
 
 
