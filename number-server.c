@@ -14,6 +14,7 @@ void handle_404(int client_sock, char *path)  {
 
     // TODO: send response back to client?
     write("It's now a blank server!");
+    write("It's now a blank server!");
 }
 
 
